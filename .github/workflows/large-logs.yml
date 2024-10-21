@@ -1,0 +1,18 @@
+name: Log Generator Workflow
+
+on:
+  workflow_dispatch:
+
+jobs:
+  generate-logs:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-22.04, ubuntu-22.04-ppc64le]
+
+    steps:
+      - name: Print Large Logs
+        run: |
+          echo "Generating large logs on ${{ matrix.os }}..."
+          yes "This is a line of log output from ${{ matrix.os }}" | head -n 1000000
+          echo "Log generation complete for ${{ matrix.os }}."
