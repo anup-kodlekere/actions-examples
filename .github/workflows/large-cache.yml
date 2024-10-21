@@ -24,10 +24,10 @@ jobs:
 
       # Step 2: Cache the large files
       - name: Cache Large Files
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: cache_data
-          key: large-file-cache-${{ matrix.os }}-${{ hashFiles('.github/workflows/large-cache.yml') }}
+          key: large-file-cache-${{ matrix.os }}-test-${{ hashFiles('.github/workflows/large-cache.yml') }}
           restore-keys: |
             large-file-cache-${{ matrix.os }}-
 
