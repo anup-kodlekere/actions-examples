@@ -1,0 +1,35 @@
+name: Cache Large Files Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  generate-cache:
+    runs-on: ubuntu-22.04
+
+    steps:
+      # Step 1: Generate large dummy files
+      - name: Generate Large Dummy Files
+        run: |
+          mkdir -p cache_data
+          echo "Generating a 1GB dummy file..."
+          dd if=/dev/zero of=cache_data/dummy_file_1GB bs=1M count=1024
+          echo "Generating another 1GB dummy file..."
+          dd if=/dev/zero of=cache_data/dummy_file_2GB bs=1M count=1024
+          echo "Generated 2GB of dummy files."
+
+      # Step 2: Cache the large files
+      - name: Cache Large Files
+        uses: actions/cache@v3
+        with:
+          path: cache_data
+          key: large-file-cache-${{ runner.os }}-${{ hashFiles('**/*.yaml') }}
+          restore-keys: |
+            large-file-cache-${{ runner.os }}-
+          
+      # Step 3: Confirm the cache is stored
+      - name: List Cached Files
+        run: ls -lh cache_data
+
