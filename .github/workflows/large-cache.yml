@@ -12,15 +12,15 @@ jobs:
         os: [ubuntu-22.04, ubuntu-22.04-ppc64le]
 
     steps:
-      # Step 1: Generate large dummy files
-      - name: Generate Large Dummy Files
+      # Step 1: Generate large dummy files with random data
+      - name: Generate Large Dummy Files (Non-Compressible)
         run: |
           mkdir -p cache_data
-          echo "Generating a 1GB dummy file on ${{ matrix.os }}..."
-          dd if=/dev/zero of=cache_data/dummy_file_1GB bs=1M count=1024
-          echo "Generating another 1GB dummy file on ${{ matrix.os }}..."
-          dd if=/dev/zero of=cache_data/dummy_file_2GB bs=1M count=1024
-          echo "Generated 2GB of dummy files on ${{ matrix.os }}."
+          echo "Generating a 1GB random data file on ${{ matrix.os }}..."
+          dd if=/dev/urandom of=cache_data/random_file_1GB bs=1M count=1024
+          echo "Generating another 1GB random data file on ${{ matrix.os }}..."
+          dd if=/dev/urandom of=cache_data/random_file_2GB bs=1M count=1024
+          echo "Generated 2GB of random data files on ${{ matrix.os }}."
 
       # Step 2: Cache the large files
       - name: Cache Large Files
