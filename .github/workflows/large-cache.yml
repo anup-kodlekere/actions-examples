@@ -2,31 +2,30 @@ name: Cache Large Files Workflow
 
 on:
   workflow_dispatch:
-
 jobs:
   generate-cache:
-    runs-on: ubuntu-22.04
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-22.04, ubuntu-22.04-ppc64le]
 
     steps:
-      # Step 1: Generate large dummy files
       - name: Generate Large Dummy Files
         run: |
           mkdir -p cache_data
-          echo "Generating a 1GB dummy file..."
+          echo "Generating a 1GB dummy file on ${{ matrix.os }}..."
           dd if=/dev/zero of=cache_data/dummy_file_1GB bs=1M count=1024
-          echo "Generating another 1GB dummy file..."
+          echo "Generating another 1GB dummy file on ${{ matrix.os }}..."
           dd if=/dev/zero of=cache_data/dummy_file_2GB bs=1M count=1024
-          echo "Generated 2GB of dummy files."
+          echo "Generated 2GB of dummy files on ${{ matrix.os }}."
 
-      # Step 2: Cache the large files
       - name: Cache Large Files
         uses: actions/cache@v3
         with:
           path: cache_data
-          key: large-file-cache-${{ runner.os }}-${{ hashFiles('**/*.yaml') }}
+          key: large-file-cache-${{ matrix.os }}-${{ hashFiles('**/*.yaml') }}
           restore-keys: |
-            large-file-cache-${{ runner.os }}-
+            large-file-cache-${{ matrix.os }}-
 
-      # Step 3: Confirm the cache is stored
       - name: List Cached Files
         run: ls -lh cache_data
