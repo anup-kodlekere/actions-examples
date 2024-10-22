@@ -27,9 +27,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: cache_data
-          key: large-file-cache-${{ matrix.os }}-cache${{ hashFiles('.github/workflows/large-cache.yml') }}
+          key: large-file-cache-${{ matrix.os }}-cache-osu${{ hashFiles('.github/workflows/large-cache.yml') }}
           restore-keys: |
-            large-file-cache-${{ matrix.os }}-cache
+            large-file-cache-${{ matrix.os }}-cache-osu
 
       # Step 3: Confirm the cache is stored
       - name: List Cached Files
