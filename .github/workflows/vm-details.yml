@@ -6,7 +6,7 @@ jobs:
   test_job:
     strategy:
       matrix:
-        os: [ubuntu-latest, ubuntu-22.04]
+        os: [ubuntu-latest, ubuntu-22.04-ppc64le]
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.os }}
     steps:
@@ -24,7 +24,7 @@ jobs:
         shell: bash
 
       - name: Upload System Information
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: system-info
           path: |
@@ -44,7 +44,7 @@ jobs:
         shell: bash
 
       - name: Upload Installed Packages
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: installed-packages
           path: installed-packages.txt
