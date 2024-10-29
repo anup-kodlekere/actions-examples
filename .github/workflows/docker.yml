@@ -8,7 +8,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, ubuntu-20.04-ppc64le]
+        os: [ubuntu-latest, ubuntu-22.04-ppc64le]
     steps:
       - name: Print Linux user
         run: whoami

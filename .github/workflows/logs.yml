@@ -4,7 +4,7 @@ on: [workflow_dispatch]
 
 jobs:
   generate_logs:
-    runs-on: ubuntu-latest-ppc64le
+    runs-on: ubuntu-22.04-ppc64le
 
     steps:
       - name: Checkout code

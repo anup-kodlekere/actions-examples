@@ -3,7 +3,7 @@ on: [workflow_dispatch]
 
 jobs:
   stress_and_disk_write:
-    runs-on: ubuntu-latest-ppc64le
+    runs-on: ubuntu-22.04-ppc64le
 
     steps:
       - name: Checkout code
