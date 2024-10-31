@@ -10,7 +10,15 @@ jobs:
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.os }}
     steps:
-      - name: list  vm details
+      - name: Set up timestamp
+        id: timestamp
+        run: echo "timestamp=$(date +%s)" >> $GITHUB_ENV
+
+      - name: Generate SHA
+        id: sha
+        run: echo "sha=$(echo -n ${{ env.timestamp }} | sha256sum | cut -d' ' -f1)" >> $GITHUB_ENV
+
+      - name: List VM Details
         run: |
           nproc   
           df -H 
@@ -26,11 +34,12 @@ jobs:
       - name: Upload System Information
         uses: actions/upload-artifact@v4
         with:
-          name: system-info
+          name: system-info-${{ env.sha }}
           path: |
             cpu-info.txt
             memory-info.txt
             disk-info.txt
+
       - name: Run commands
         run: |
           uname -a
@@ -38,6 +47,7 @@ jobs:
           echo "sleeping for 5 minutes..."
           sleep 5m
           echo "wake up..."
+
       - name: List Installed Packages
         run: |
           dpkg-query -W -f='${Package}\n' > installed-packages.txt
@@ -46,5 +56,5 @@ jobs:
       - name: Upload Installed Packages
         uses: actions/upload-artifact@v4
         with:
-          name: installed-packages
+          name: installed-packages-${{ env.sha }}
           path: installed-packages.txt
