@@ -5,9 +5,13 @@ on: [workflow_dispatch, pull_request]
 jobs:
   quick-job:
     name: print platform arch
-    runs-on: ubuntu-22.04-ppc64le
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-22.04-ppc64le, ubuntu-22.04-x64]
     steps:
       - name: Run commands
         run: |
           uname -a
           arch
+
