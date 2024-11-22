@@ -1,0 +1,37 @@
+name: Network Test Workflow
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run-network-test:
+    name: Run Network Test - ${{ matrix.os }} [${{ matrix.runner_owner }}]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-22.04
+            runner_owner: "github-hosted"
+          - os: ubuntu-22.04-x64
+            runner_owner: "actions-runner-x64"
+          - os: ubuntu-22.04-ppc64le
+            runner_owner: "actions-runner-ppc64le"
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set 755 Permissions for github-network-test.sh
+        run: |
+          chmod 755 ./github-network-test.sh
+
+      - name: Run github-network-test.sh
+        run: |
+          ./github-network-test.sh
+
+      - name: Upload Generated Tar File
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.runner_owner }}-${{ github.run_id }}-${{ github.run_number }}.tar.gz
+          path: /tmp/github-logs/*.tar.gz
+
