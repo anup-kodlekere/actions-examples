@@ -12,8 +12,8 @@ jobs:
         include:
           - os: ubuntu-22.04
             runner_owner: "github-hosted"
-          - os: ubuntu-22.04-x64
-            runner_owner: "actions-runner-x64"
+          - os: ubuntu-22.04-ppc64le
+            runner_owner: "actions-runner-app"
           - os: self-hosted
             runner_owner: "actions-runner-ppc64le"
 
